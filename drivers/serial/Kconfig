@@ -393,6 +393,11 @@ config BCM6345_SERIAL
 	depends on DM_SERIAL && ARCH_BMIPS
 	help
 	  Select this to enable UART on BCM6345 SoCs.
+	  
+config XF2440_SERIAL
+	bool "Support for xf2440 UART"
+	help
+	  Select this to enable UART on xf2440 SoCs.
 
 config FSL_LPUART
 	bool "Freescale LPUART support"

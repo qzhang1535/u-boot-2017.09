@@ -389,6 +389,10 @@ config TARGET_MX23_OLINUXINO
 	select CPU_ARM926EJS
 	select SUPPORT_SPL
 	select BOARD_EARLY_INIT_F
+	
+config TARGET_TQ2440
+	bool "Support tq2440"
+	select CPU_ARM920T
 
 config TARGET_BG0900
 	bool "Support bg0900"
@@ -1232,6 +1236,7 @@ source "board/vscom/baltos/Kconfig"
 source "board/woodburn/Kconfig"
 source "board/work-microwave/work_92105/Kconfig"
 source "board/zipitz2/Kconfig"
+source "board/tq2440/Kconfig"
 
 source "arch/arm/Kconfig.debug"
 
