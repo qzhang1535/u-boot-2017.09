@@ -1,0 +1,24 @@
+
+
+
+if TARGET_TQ2440
+
+config SYS_BOARD
+	default "tq2440"
+	
+config SYS_VENDOR
+	default ""
+
+config SYS_SOC
+	default "xf2440"
+
+config SYS_CONFIG_NAME
+	default "tq2440"
+	
+config XF2440
+	bool 
+	default y
+
+
+
+endif

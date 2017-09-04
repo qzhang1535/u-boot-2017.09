@@ -66,6 +66,7 @@ obj-$(CONFIG_NAND_PLAT) += nand_plat.o
 obj-$(CONFIG_NAND_SUNXI) += sunxi_nand.o
 obj-$(CONFIG_NAND_ZYNQ) += zynq_nand.o
 obj-$(CONFIG_NAND_TQ210) += tq210_nand.o
+obj-$(CONFIG_NAND_XF2440) += xf2440_nand.o
 
 else  # minimal SPL drivers
 

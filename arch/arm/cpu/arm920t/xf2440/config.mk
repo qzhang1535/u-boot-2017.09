@@ -1,0 +1,1 @@
+SPL_OBJCFLAGS += --pad-to=8192

@@ -125,6 +125,12 @@ config NAND_ZYNQ
 	help
 	  This enables Nand driver support for Nand flash controller
 	  found on Zynq SoC.
+	  
+config NAND_XF2440
+	bool "Support for NAND on XF2440"
+	---help---
+	Enable support for NAND. This option allows SPL to read from
+	sunxi NAND using DMA transfers.
 
 comment "Generic NAND options"
 
