@@ -56,6 +56,15 @@ config USB_GADGET_DWC2_OTG
 	  integrated into many SoCs. Select this option if you want the
 	  driver to operate in Peripheral mode. This option requires
 	  USB_GADGET to be enabled.
+	  
+config USB_GADGET_XF2440
+	bool "XF2440 USB2.0 device controller (gadget mode)"
+	select USB_GADGET_DUALSPEED
+	help
+	  The Designware USB2.0 high-speed gadget controller
+	  integrated into many SoCs. Select this option if you want the
+	  driver to operate in Peripheral mode. This option requires
+	  USB_GADGET to be enabled.
 
 if USB_GADGET_DWC2_OTG
 
