@@ -154,7 +154,7 @@ CONFIG_XF2440=y
 # General setup
 #
 CONFIG_LOCALVERSION=""
-CONFIG_LOCALVERSION_AUTO=y
+# CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_CC_OPTIMIZE_FOR_SIZE=y
 # CONFIG_DISTRO_DEFAULTS is not set
 # CONFIG_SYS_MALLOC_F is not set
@@ -235,7 +235,7 @@ CONFIG_HASH=y
 #
 CONFIG_CMDLINE=y
 # CONFIG_HUSH_PARSER is not set
-CONFIG_SYS_PROMPT="=> "
+CONFIG_SYS_PROMPT="TQ2440 #"
 
 #
 # Autoboot options
@@ -320,12 +320,8 @@ CONFIG_CMD_MEMORY=y
 # CONFIG_CMD_CLK is not set
 # CONFIG_CMD_DFU is not set
 # CONFIG_CMD_FDC is not set
-CONFIG_CMD_FLASH=y
-CONFIG_CMD_FPGA=y
-# CONFIG_CMD_FPGA_LOADBP is not set
-# CONFIG_CMD_FPGA_LOADFS is not set
-# CONFIG_CMD_FPGA_LOADMK is not set
-# CONFIG_CMD_FPGA_LOADP is not set
+# CONFIG_CMD_FLASH is not set
+# CONFIG_CMD_FPGA is not set
 # CONFIG_CMD_FPGAD is not set
 # CONFIG_CMD_FUSE is not set
 # CONFIG_CMD_GPIO is not set
@@ -372,7 +368,7 @@ CONFIG_CMD_NET=y
 # CONFIG_CMD_RARP is not set
 # CONFIG_CMD_DHCP is not set
 # CONFIG_CMD_PXE is not set
-CONFIG_CMD_NFS=y
+# CONFIG_CMD_NFS is not set
 # CONFIG_CMD_MII is not set
 # CONFIG_CMD_PING is not set
 # CONFIG_CMD_CDP is not set
@@ -456,13 +452,13 @@ CONFIG_SUPPORT_OF_CONTROL=y
 #
 # Environment
 #
-CONFIG_ENV_IS_NOWHERE=y
+# CONFIG_ENV_IS_NOWHERE is not set
 # CONFIG_ENV_IS_IN_DATAFLASH is not set
 # CONFIG_ENV_IS_IN_EEPROM is not set
 # CONFIG_ENV_IS_IN_FAT is not set
 # CONFIG_ENV_IS_IN_FLASH is not set
 # CONFIG_ENV_IS_IN_MMC is not set
-# CONFIG_ENV_IS_IN_NAND is not set
+CONFIG_ENV_IS_IN_NAND=y
 # CONFIG_ENV_IS_IN_NVRAM is not set
 # CONFIG_ENV_IS_IN_ONENAND is not set
 # CONFIG_ENV_IS_IN_REMOTE is not set
@@ -567,14 +563,7 @@ CONFIG_DM_DEV_READ_INLINE=y
 #
 # MMC Host controller Support
 #
-CONFIG_MMC=y
-# CONFIG_SPL_MMC_TINY is not set
-# CONFIG_MMC_DW is not set
-# CONFIG_MMC_MXC is not set
-# CONFIG_MMC_MXS is not set
-# CONFIG_MMC_PCI is not set
-# CONFIG_MMC_OMAP_HS is not set
-# CONFIG_MMC_SDHCI is not set
+# CONFIG_MMC is not set
 
 #
 # MTD Support
