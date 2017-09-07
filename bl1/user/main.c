@@ -24,7 +24,7 @@ static int check_flashboot_mode(void)
 int main(void)
 {
 	int i = 0;
-	volatile unsigned char *sdram = (volatile unsigned char *)0x33E00000;
+	volatile unsigned char *sdram = (volatile unsigned char *)0x30000000;
 	volatile unsigned char *start = (volatile unsigned char *)4096;
 	
 	serial_puts("\r\n\r\n\r\n");
@@ -47,7 +47,7 @@ int main(void)
 	}
 	
 	serial_puts("Jump to uboot...");
-	theApp = (void (*)(void))0x33E00000;
+	theApp = (void (*)(void))0x30000000;
 	theApp();
 		
 	while(1)

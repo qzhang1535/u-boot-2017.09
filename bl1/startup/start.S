@@ -47,7 +47,7 @@ reset:
 		
 		bl	    lowlevel_init
 		
-		ldr  	sp, =(0x30000000 + 4096)	
+		ldr  	sp, =(0x30000000 + 2*1024*1024)	
 		
 		bl 		main
 		

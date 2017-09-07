@@ -235,7 +235,7 @@ CONFIG_HASH=y
 #
 CONFIG_CMDLINE=y
 # CONFIG_HUSH_PARSER is not set
-CONFIG_SYS_PROMPT="TQ2440 #"
+CONFIG_SYS_PROMPT="TQ2440# "
 
 #
 # Autoboot options
@@ -369,7 +369,7 @@ CONFIG_CMD_SETEXPR=y
 #
 # Network commands
 #
-# CONFIG_CMD_NET is not set
+CONFIG_CMD_NET=y
 # CONFIG_CMD_TFTPPUT is not set
 # CONFIG_CMD_TFTPSRV is not set
 # CONFIG_CMD_RARP is not set
