@@ -1361,12 +1361,47 @@ static int s3c2410_udc_queue(struct usb_ep *_ep, struct usb_request *_req,
 	return 0;
 }
 
-
-static int s3c2410_udc_dequeue(struct usb_ep *ep, struct usb_request *req)
+/*
+ *	s3c2410_udc_dequeue
+ */
+static int s3c2410_udc_dequeue(struct usb_ep *_ep, struct usb_request *_req)
 {
-	printf("XF2440: %s ================ \n", __func__);
-	
-	return 0;
+	struct s3c2410_ep	*ep = to_s3c2410_ep(_ep);
+	struct s3c2410_udc	*udc;
+	int			retval = -EINVAL;
+	unsigned long		flags;
+	struct s3c2410_request	*req = NULL;
+
+	dprintk("%s(%p,%p)\n", __func__, _ep, _req);
+
+	if (!the_controller->driver)
+		return -ESHUTDOWN;
+
+	if (!_ep || !_req)
+		return retval;
+
+	udc = to_s3c2410_udc(ep->gadget);
+
+	local_irq_save (flags);
+
+	list_for_each_entry (req, &ep->queue, queue) {
+		if (&req->req == _req) {
+			list_del_init (&req->queue);
+			_req->status = -ECONNRESET;
+			retval = 0;
+			break;
+		}
+	}
+
+	if (retval == 0) {
+		dprintk("dequeued req %p from %s, len %d buf %p\n",
+			req, _ep->name, _req->length, _req->buf);
+
+		s3c2410_udc_done(ep, req, -ECONNRESET);
+	}
+
+	local_irq_restore (flags);
+	return retval;
 }
 
 
