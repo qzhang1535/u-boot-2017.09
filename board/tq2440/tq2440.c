@@ -17,7 +17,7 @@ int board_init(void)
 
 int board_usb_init(int index, enum usb_init_type init)
 {
-	return xf2440_udc_probe();
+	return s3c2410_udc_probe();
 }
 
 
