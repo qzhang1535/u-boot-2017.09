@@ -31,11 +31,10 @@
 	
 	
 #define CONFIG_ENV_IS_IN_NAND				1
-#define CONFIG_ENV_OFFSET					0x200000
+#define CONFIG_ENV_OFFSET					0x100000
 #define CONFIG_ENV_SIZE						(128*1024)
 
-#define CONFIG_BOOTCOMMAND		"nand read 0x30007fc0 0x300000 0x500000; bootm 0x30007fc0"
-#define CONFIG_BOOTARGS			"console=ttySAC0,115200 init=/linuxrc ubi.mtd=2 root=ubi0:rootfs rootfstype=ubifs"
+#define CONFIG_BOOTCOMMAND					"nand read 0x30007fc0 kernel; bootm 0x30007fc0"
 
 #ifdef CONFIG_SPL_BUILD
 #define CONFIG_SPL_FRAMEWORK				1
@@ -90,7 +89,7 @@
 */
 
 #define CONFIG_SETUP_MEMORY_TAGS		1
-#define CONFIG_CMDLINE_TAG			1
+#define CONFIG_CMDLINE_TAG				1
 
 
 #define CONFIG_SYS_MONITOR_BASE			1
