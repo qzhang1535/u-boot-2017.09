@@ -57,7 +57,6 @@ config FASTBOOT_FLASH
 	  the downloaded image to a non-volatile storage device. Define
 	  this to enable the "fastboot flash" command.
 
-
 config FASTBOOT_GPT_NAME
 	string "Target name for updating GPT"
 	depends on FASTBOOT_FLASH
@@ -71,15 +70,6 @@ config FASTBOOT_GPT_NAME
 	  "fastboot flash" command line matches the value defined here.
 	  The default target name for updating GPT is "gpt".
 
-config FASTBOOT_MBR_NAME
-	string "Target name for updating MBR"
-	depends on FASTBOOT_FLASH
-	default "mbr"
-	help
-	  The fastboot "flash" command allows to write the downloaded image
-	  to the Master Boot Record. This occurs when the "partition name"
-	  specified on the "fastboot flash" command line matches the value
-	  defined here. The default target name for updating MBR is "mbr".
 
 endif # USB_FUNCTION_FASTBOOT
 

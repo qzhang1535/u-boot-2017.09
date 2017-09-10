@@ -842,11 +842,43 @@ static int s3c2410_udc_ep_enable(struct usb_ep *_ep,
 	return 0;
 }
 
-static int s3c2410_udc_ep_disable (struct usb_ep *ep)
+
+/*
+ * s3c2410_udc_ep_disable
+ */
+static int s3c2410_udc_ep_disable(struct usb_ep *_ep)
 {
+	struct s3c2410_ep *ep = to_s3c2410_ep(_ep);
+	unsigned long flags;
+	u32 int_en_reg;
+
+	if (!_ep || !ep->desc) {
+		dprintk("%s not enabled\n",
+			_ep ? ep->ep.name : NULL);
+		return -EINVAL;
+	}
+
+	local_irq_save(flags);
+
+	dprintk("ep_disable: %s\n", _ep->name);
+
+	ep->desc = NULL;
+	ep->ep.desc = NULL;
+	ep->halted = 1;
+
+	s3c2410_udc_nuke (ep->dev, ep, -ESHUTDOWN);
+
+	/* disable irqs */
+	int_en_reg = udc_read(S3C2410_UDC_EP_INT_EN_REG);
+	udc_write(int_en_reg & ~(1<<ep->num), S3C2410_UDC_EP_INT_EN_REG);
+
+	local_irq_restore(flags);
+
+	dprintk("%s disabled\n", _ep->name);
+
 	return 0;
 }
-	
+
 
 
 
@@ -1668,6 +1700,62 @@ static void s3c2410_udc_handle_ep0(struct s3c2410_udc *dev)
 
 
 /*
+ *	handle_ep - Manage I/O endpoints
+ */
+
+static void s3c2410_udc_handle_ep(struct s3c2410_ep *ep)
+{
+	struct s3c2410_request	*req;
+	int			is_in = ep->bEndpointAddress & USB_DIR_IN;
+	u32			ep_csr1;
+	u32			idx;
+
+	if (likely (!list_empty(&ep->queue)))
+		req = list_entry(ep->queue.next,
+				struct s3c2410_request, queue);
+	else
+		req = NULL;
+
+	idx = ep->bEndpointAddress & 0x7F;
+
+	if (is_in) {
+		udc_write(idx, S3C2410_UDC_INDEX_REG);
+		ep_csr1 = udc_read(S3C2410_UDC_IN_CSR1_REG);
+		dprintk("ep%01d write csr:%02x %d\n",
+			idx, ep_csr1, req ? 1 : 0);
+
+		if (ep_csr1 & S3C2410_UDC_ICSR1_SENTSTL) {
+			dprintk(DEBUG_VERBOSE, "st\n");
+			udc_write(idx, S3C2410_UDC_INDEX_REG);
+			udc_write(ep_csr1 & ~S3C2410_UDC_ICSR1_SENTSTL,
+					S3C2410_UDC_IN_CSR1_REG);
+			return;
+		}
+
+		if (!(ep_csr1 & S3C2410_UDC_ICSR1_PKTRDY) && req) {
+			s3c2410_udc_write_fifo(ep,req);
+		}
+	} else {
+		udc_write(idx, S3C2410_UDC_INDEX_REG);
+		ep_csr1 = udc_read(S3C2410_UDC_OUT_CSR1_REG);
+		dprintk("ep%01d rd csr:%02x\n", idx, ep_csr1);
+
+		if (ep_csr1 & S3C2410_UDC_OCSR1_SENTSTL) {
+			udc_write(idx, S3C2410_UDC_INDEX_REG);
+			udc_write(ep_csr1 & ~S3C2410_UDC_OCSR1_SENTSTL,
+					S3C2410_UDC_OUT_CSR1_REG);
+			return;
+		}
+
+		if ((ep_csr1 & S3C2410_UDC_OCSR1_PKTRDY) && req) {
+			s3c2410_udc_read_fifo(ep,req);
+		}
+	}
+}
+
+
+
+/*
  *	s3c2410_udc_irq - interrupt handler
  */
 static irqreturn_t s3c2410_udc_irq(int dummy, void *_dev)
@@ -1783,6 +1871,7 @@ static irqreturn_t s3c2410_udc_irq(int dummy, void *_dev)
 		s3c2410_udc_handle_ep0(dev);
 	}
 
+	
 	/* endpoint data transfers */
 	for (i = 1; i < S3C2410_ENDPOINTS; i++) {
 		u32 tmp = 1 << i;
@@ -1791,10 +1880,10 @@ static irqreturn_t s3c2410_udc_irq(int dummy, void *_dev)
 
 			/* Clear the interrupt bit by setting it to 1 */
 			udc_write(tmp, S3C2410_UDC_EP_INT_REG);
-			//??s3c2410_udc_handle_ep(&dev->ep[i]);
+			s3c2410_udc_handle_ep(&dev->ep[i]);
 		}
 	}
-
+	
 	/* what else causes this interrupt? a receive! who is it? */
 	if (!usb_status && !usbd_status && !pwr_reg && !ep0csr) {
 		for (i = 1; i < S3C2410_ENDPOINTS; i++) {
@@ -1802,14 +1891,12 @@ static irqreturn_t s3c2410_udc_irq(int dummy, void *_dev)
 			udc_write(i, S3C2410_UDC_INDEX_REG);
 
 			if (udc_read(S3C2410_UDC_OUT_CSR1_REG) & 0x1)
-				//??s3c2410_udc_handle_ep(&dev->ep[i]);
+				s3c2410_udc_handle_ep(&dev->ep[i]);
 
 			/* restore index */
 			udc_write(idx2, S3C2410_UDC_INDEX_REG);
 		}
-	}
-
-	
+	}	
 
 	/* Restore old index */
 	udc_write(idx, S3C2410_UDC_INDEX_REG);
