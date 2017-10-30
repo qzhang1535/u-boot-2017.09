@@ -158,7 +158,7 @@ CONFIG_TARGET_TQ210=y
 # General setup
 #
 CONFIG_LOCALVERSION=""
-CONFIG_LOCALVERSION_AUTO=y
+# CONFIG_LOCALVERSION_AUTO is not set
 CONFIG_CC_OPTIMIZE_FOR_SIZE=y
 # CONFIG_DISTRO_DEFAULTS is not set
 # CONFIG_SYS_MALLOC_F is not set
@@ -239,7 +239,7 @@ CONFIG_HASH=y
 #
 CONFIG_CMDLINE=y
 # CONFIG_HUSH_PARSER is not set
-CONFIG_SYS_PROMPT="=> "
+CONFIG_SYS_PROMPT="TQ210# "
 
 #
 # Autoboot options
@@ -370,13 +370,13 @@ CONFIG_CMD_SETEXPR=y
 #
 # Network commands
 #
-CONFIG_CMD_NET=y
+# CONFIG_CMD_NET is not set
 # CONFIG_CMD_TFTPPUT is not set
 # CONFIG_CMD_TFTPSRV is not set
 # CONFIG_CMD_RARP is not set
 # CONFIG_CMD_DHCP is not set
 # CONFIG_CMD_PXE is not set
-CONFIG_CMD_NFS=y
+# CONFIG_CMD_NFS is not set
 # CONFIG_CMD_MII is not set
 # CONFIG_CMD_PING is not set
 # CONFIG_CMD_CDP is not set
@@ -472,12 +472,7 @@ CONFIG_ENV_IS_NOWHERE=y
 # CONFIG_ENV_IS_IN_REMOTE is not set
 # CONFIG_ENV_IS_IN_SPI_FLASH is not set
 # CONFIG_ENV_IS_IN_UBI is not set
-CONFIG_NET=y
-# CONFIG_NET_RANDOM_ETHADDR is not set
-# CONFIG_NETCONSOLE is not set
-CONFIG_NET_TFTP_VARS=y
-CONFIG_BOOTP_PXE_CLIENTARCH=0x15
-CONFIG_BOOTP_VCI_STRING="U-Boot.armv7"
+# CONFIG_NET is not set
 
 #
 # Device Drivers
@@ -571,14 +566,7 @@ CONFIG_DM_DEV_READ_INLINE=y
 #
 # MMC Host controller Support
 #
-CONFIG_MMC=y
-# CONFIG_SPL_MMC_TINY is not set
-# CONFIG_MMC_DW is not set
-# CONFIG_MMC_MXC is not set
-# CONFIG_MMC_MXS is not set
-# CONFIG_MMC_PCI is not set
-# CONFIG_MMC_OMAP_HS is not set
-# CONFIG_MMC_SDHCI is not set
+# CONFIG_MMC is not set
 
 #
 # MTD Support
@@ -608,7 +596,6 @@ CONFIG_NAND_TQ210=y
 # CONFIG_BITBANGMII is not set
 # CONFIG_MV88E6352_SWITCH is not set
 # CONFIG_PHYLIB is not set
-# CONFIG_NETDEVICES is not set
 # CONFIG_PCI is not set
 
 #

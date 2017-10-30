@@ -867,6 +867,9 @@ endif
 	@# know about unless they are in Kconfig. All the existing CONFIG
 	@# options are whitelisted, so new ones should not be added.
 	$(call cmd,cfgcheck,u-boot.cfg)
+	
+	make -C bl1
+	cat bl1/u-boot-spl.bin u-boot.bin > u-boot-tq210.bin
 
 PHONY += dtbs
 dtbs: dts/dt.dtb
@@ -1520,6 +1523,7 @@ $(clean-dirs):
 
 # TODO: Do not use *.cfgtmp
 clean: $(clean-dirs)
+	make -C bl1 clean
 	$(call cmd,rmdirs)
 	$(call cmd,rmfiles)
 	@find $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \

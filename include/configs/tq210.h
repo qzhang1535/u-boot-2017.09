@@ -55,7 +55,6 @@
 #define CONFIG_CMD_LOADB					1
 #define CONFIG_CMD_MTDPARTS					1
 #define CONFIG_CMD_NAND						1
-#define CONFIG_CMD_NET						1
 #define CONFIG_CMD_PING						1
 #define CONFIG_CMD_SAVEENV					1
 
@@ -65,20 +64,7 @@
 #define MTDPARTS_DEFAULT 						"mtdparts=nand0:0x100000@0x0(uboot),0x100000@0x100000(env),0x100000@0x200000(dtb),0x500000@0x300000(kernel),0x4000000@0x800000(rootfs),-(reserved)"
 #define MTD_ACTIVE_PART 						"nand0,2"
 
-#define CONFIG_DRIVER_DM9000					1
-#ifdef CONFIG_DRIVER_DM9000
-	#define CONFIG_DM9000_NO_SROM				1
-	#define CONFIG_DM9000_BASE					0x88000000
-	#define DM9000_IO							CONFIG_DM9000_BASE
-	#define DM9000_DATA							(CONFIG_DM9000_BASE + 4)
-	#define CONFIG_DM9000_USE_16BIT 			1
-#endif
 
-#define CONFIG_ETHADDR			10:1a:1b:1c:1d:1e
-#define CONFIG_NETMASK        	255.255.255.0
-#define CONFIG_IPADDR			192.168.1.231
-#define CONFIG_SERVERIP			192.168.1.101
-#define CONFIG_GATEWAYIP		192.168.1.1
 
 #define CONFIG_SETUP_MEMORY_TAGS		1
 #define CONFIG_CMDLINE_TAG				1
