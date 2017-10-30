@@ -1,0 +1,16 @@
+if SOC_XF210
+
+choice
+	prompt "xf210 board select"
+	optional
+
+config TARGET_TQ210
+	bool "tq210 Machine"
+
+endchoice
+
+
+
+source "board/tq210/Kconfig"
+
+endif

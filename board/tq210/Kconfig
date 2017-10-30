@@ -1,0 +1,15 @@
+if TARGET_TQ210
+
+config SYS_BOARD
+	default "tq210"
+
+config SYS_VENDOR
+	default ""
+
+config SYS_SOC
+	default "xf210"
+
+config SYS_CONFIG_NAME
+	default "tq210"
+
+endif

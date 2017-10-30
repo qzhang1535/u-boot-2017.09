@@ -1092,6 +1092,9 @@ config ARCH_ASPEED
 	bool "Support Aspeed SoCs"
 	select OF_CONTROL
 	select DM
+config SOC_XF210
+	bool "Support XF210"
+	select CPU_V7
 
 endchoice
 
@@ -1154,6 +1157,8 @@ source "arch/arm/mach-tegra/Kconfig"
 source "arch/arm/mach-uniphier/Kconfig"
 
 source "arch/arm/cpu/armv7/vf610/Kconfig"
+
+source "arch/arm/cpu/armv7/xf210/Kconfig"
 
 source "arch/arm/mach-zynq/Kconfig"
 
@@ -1232,6 +1237,7 @@ source "board/vscom/baltos/Kconfig"
 source "board/woodburn/Kconfig"
 source "board/work-microwave/work_92105/Kconfig"
 source "board/zipitz2/Kconfig"
+source "board/tq210/Kconfig"
 
 source "arch/arm/Kconfig.debug"
 
