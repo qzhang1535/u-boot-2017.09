@@ -57,13 +57,6 @@ config FASTBOOT_FLASH
 	  the downloaded image to a non-volatile storage device. Define
 	  this to enable the "fastboot flash" command.
 
-config FASTBOOT_FLASH_MMC_DEV
-	int "Define FASTBOOT MMC FLASH default device"
-	depends on FASTBOOT_FLASH
-	help
-	  The fastboot "flash" command requires additional information
-	  regarding the non-volatile storage device. Define this to
-	  the eMMC device that fastboot should use to store the image.
 
 config FASTBOOT_GPT_NAME
 	string "Target name for updating GPT"

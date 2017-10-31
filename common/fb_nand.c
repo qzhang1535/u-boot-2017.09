@@ -183,6 +183,13 @@ void fb_nand_flash_write(const char *cmd, void *download_buffer,
 		write_sparse_image(&sparse, cmd, download_buffer,
 				   download_bytes);
 	} else {
+		ret = _fb_nand_erase(mtd, part);
+		if (ret) {
+			error("failed erasing from device %s", mtd->name);
+			fastboot_fail("failed erasing from device");
+			return;
+		}
+	
 		printf("Flashing raw image at offset 0x%llx\n",
 		       part->offset);
 
