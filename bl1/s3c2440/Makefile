@@ -20,12 +20,12 @@ OBJ +=$(addprefix $(OBJDIR)/, $(SRC_S_FILE:.S=.o))
 
 
 #…Ë÷√±‡“Îª∑æ≥ 
-CC = gcc
-CC      = arm-linux-gcc
-LD      = arm-linux-ld
-AR      = arm-linux-ar
-OBJCOPY = arm-linux-objcopy
-OBJDUMP = arm-linux-objdump
+CROSS_COMPILE ?= arm-linux-
+CC      = $(CROSS_COMPILE)gcc
+LD      = $(CROSS_COMPILE)ld
+AR      = $(CROSS_COMPILE)ar
+OBJCOPY = $(CROSS_COMPILE)objcopy
+OBJDUMP = $(CROSS_COMPILE)objdump
 CFLAGS = -Wall -nostdlib -g -Os -fno-builtin-printf 
 vpath %.c $(dir $(SRC_C))
 vpath %.S $(dir $(SRC_S))

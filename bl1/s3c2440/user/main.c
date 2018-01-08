@@ -4,7 +4,7 @@ static void (*theApp)(void);
 
 static int check_flashboot_mode(void)
 {
-    volatile unsigned int *pdw = (volatile unsigned int *)0;
+    volatile unsigned int *pdw = (volatile unsigned int *)4;
     unsigned int dwVal;
     dwVal = *pdw; 
     *pdw = 0x12345678;
