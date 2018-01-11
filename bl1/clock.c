@@ -94,6 +94,7 @@ void raise(int signum)
 {
 }
 
+#if 0
 /* 打印时钟信息 */
 void print_clockinfo()
 {	
@@ -183,3 +184,4 @@ void print_clockinfo()
 	printf("PCLK_PSYS 	= %d MHz\n", t / (PCLK_PSYS_RATIO + 1));
 	printf("SCLKEPLL 	= %d MHz\n", SCLKEPLL);
 }
+#endif
