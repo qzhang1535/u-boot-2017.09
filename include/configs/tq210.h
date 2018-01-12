@@ -1,6 +1,7 @@
 #ifndef _TQ210_H
 #define _TQ210_H
 
+#include <asm/arch/cpu.h>
 
 #define CONFIG_BAUDRATE			115200
 #define CONFIG_NR_DRAM_BANKS	1

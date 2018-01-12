@@ -5,6 +5,10 @@
 #define rWTDAT 				*((volatile unsigned long*)0xE2700004)
 #define rWTCNT 				*((volatile unsigned long*)0xE2700008)
 
+
+
+unsigned int s5p_cpu_id = 0;
+
 void reset_cpu(ulong addr)
 {
 	rWTCON = 0;
