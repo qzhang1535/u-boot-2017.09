@@ -2,6 +2,8 @@
 #include <netdev.h>
 #include <usb.h>
 
+#include <usb/dwc2_udc.h>
+
 
 
 DECLARE_GLOBAL_DATA_PTR;
@@ -23,10 +25,27 @@ int dram_init(void)
 }
 
 
+#ifdef CONFIG_USB_GADGET
+
+
+static int s5pc1xx_phy_control(int on)
+{
+	
+}
+
+struct dwc2_plat_otg_data s5pc110_otg_data = {
+	.phy_control = s5pc1xx_phy_control,
+	.regs_phy = 0xEC100000,
+	.regs_otg = 0xEC000000,
+	.usb_phy_ctrl = 0xE010E80C,
+};
+
 int board_usb_init(int index, enum usb_init_type init)
 {
-	return s3c_udc_probe();
+	debug("USB_udc_probe\n");
+	return dwc2_udc_probe(&s5pc110_otg_data);
 }
+#endif
 
 
 #ifdef CONFIG_DRIVER_DM9000
