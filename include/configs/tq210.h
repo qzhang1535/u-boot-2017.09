@@ -38,8 +38,7 @@
 #define CONFIG_ENV_OFFSET					0x100000
 #define CONFIG_ENV_SIZE						(128*1024)
 
-#define CONFIG_BOOTCOMMAND					"nand read 20700000 dtb;nand read 20007fc0 kernel;bootm 20007fc0 - 20700000"
-#define CONFIG_BOOTARGS						"console=ttySAC0,115200 init=/linuxrc ubi.mtd=4 root=ubi0:rootfs rootfstype=ubifs"
+#define CONFIG_BOOTCOMMAND					"nand read 20007fc0 boot;bootm 20007fc0"
 
 
 #define CONFIG_AUTO_COMPLETE				1		/*tab auto complete*/
@@ -56,13 +55,14 @@
 /*mtd*/
 #define CONFIG_MTD_DEVICE						1
 #define MTDIDS_DEFAULT 						    "nand0=nand0"
-#define MTDPARTS_DEFAULT 						"mtdparts=nand0:0x100000@0x0(uboot),0x100000@0x100000(env),0x100000@0x200000(dtb),0x500000@0x300000(kernel),0x4000000@0x800000(rootfs),-(reserved)"
-#define MTD_ACTIVE_PART 						"nand0,2"
+#define MTDPARTS_DEFAULT 					    "mtdparts=nand0:0x200000@0x0(uboot),0x600000@0x200000(boot),0x4000000@0x800000(rootfs),-(reserved)"
+#define MTD_ACTIVE_PART 					    "nand0,2"
 
 
 
-#define CONFIG_SETUP_MEMORY_TAGS		1
+#define CONFIG_SETUP_MEMORY_TAGS			1
 #define CONFIG_CMDLINE_TAG				1
+#define CONFIG_INITRD_TAG				1
 
 
 #define CONFIG_SYS_MONITOR_BASE				1
@@ -71,3 +71,4 @@
 
 
 #endif
+
