@@ -55,7 +55,7 @@
 /*mtd*/
 #define CONFIG_MTD_DEVICE						1
 #define MTDIDS_DEFAULT 						    "nand0=nand0"
-#define MTDPARTS_DEFAULT 					    "mtdparts=nand0:0x200000@0x0(uboot),0x600000@0x200000(boot),0x4000000@0x800000(rootfs),-(reserved)"
+#define MTDPARTS_DEFAULT 					    "mtdparts=nand0:0x200000@0x0(bootloader),0x600000@0x200000(boot),0x4000000@0x800000(rootfs),-(reserved)"
 #define MTD_ACTIVE_PART 					    "nand0,2"
 
 
