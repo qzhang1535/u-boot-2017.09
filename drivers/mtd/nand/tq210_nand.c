@@ -242,7 +242,7 @@ static int tq210_nand_correct_data(struct mtd_info *mtd, u_char *dat,
 		return 0;
 
 	printf("s5pv210_nand_correct_data: not implemented\n");
-	return -1;
+	return 0;
 }
 
 /* add by zjh */
@@ -318,6 +318,7 @@ int board_nand_init(struct nand_chip *nand)
 #else
 	nand->ecc.mode = NAND_ECC_SOFT;
 #endif
+	nand->options |= NAND_NO_SUBPAGE_WRITE;
 
 	return 0;
 }
