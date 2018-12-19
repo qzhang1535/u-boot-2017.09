@@ -30,7 +30,7 @@ int dram_init(void)
 
 static int s5pc1xx_phy_control(int on)
 {
-	
+    return 0;	
 }
 
 struct dwc2_plat_otg_data s5pc110_otg_data = {
