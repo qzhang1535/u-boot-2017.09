@@ -38,7 +38,7 @@
 #define CONFIG_ENV_OFFSET					0x100000
 #define CONFIG_ENV_SIZE						(128*1024)
 
-#define CONFIG_BOOTCOMMAND					"nand read 20007fc0 boot;bootm 20007fc0"
+#define CONFIG_BOOTCOMMAND					"ubi part boot;ubifsmount ubi0:boot;ubifsload 20008000 zImage;ubifsload 20800000 s5pv210-tq210.dtb;bootz 20008000 - 20800000"
 
 
 #define CONFIG_AUTO_COMPLETE				1		/*tab auto complete*/
@@ -55,7 +55,7 @@
 /*mtd*/
 #define CONFIG_MTD_DEVICE						1
 #define MTDIDS_DEFAULT 						    "nand0=nand0"
-#define MTDPARTS_DEFAULT 					    "mtdparts=nand0:0x200000@0x0(bootloader),0x600000@0x200000(boot),0x4000000@0x800000(rootfs),-(reserved)"
+#define MTDPARTS_DEFAULT 					    "mtdparts=nand0:0x200000@0x0(bootloader),0x800000@0x200000(boot),0x4000000@0xa00000(rootfs),-(reserved)"
 #define MTD_ACTIVE_PART 					    "nand0,2"
 
 
