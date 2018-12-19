@@ -1,6 +1,6 @@
 OBJ=bl1
 
-CROSS_COMPILE=arm-linux-
+CROSS_COMPILE?=arm-linux-
 
 CC              = $(CROSS_COMPILE)gcc
 CPP             = $(CC) -E
