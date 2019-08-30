@@ -38,6 +38,7 @@
 #define CONFIG_ENV_OFFSET					0x100000
 #define CONFIG_ENV_SIZE						(128*1024)
 
+#define CONFIG_EXTRA_ENV_SETTINGS           "serial#=TQ210F000A\0"
 #define CONFIG_BOOTCOMMAND					"ubi part boot;ubifsmount ubi0:boot;ubifsload 20008000 zImage;ubifsload 20800000 s5pv210-tq210.dtb;bootz 20008000 - 20800000"
 
 
