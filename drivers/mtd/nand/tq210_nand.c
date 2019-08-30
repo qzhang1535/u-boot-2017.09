@@ -250,7 +250,19 @@ static int tq210_nand_correct_data(struct mtd_info *mtd, u_char *dat,
 static int tq210_nand_read_page_hwecc(struct mtd_info *mtd, struct nand_chip *chip,
 				uint8_t *buf, int oob_required, int page)
 {
-	return NF8_ReadPage_Adv(page / 64, page % 64, buf);
+#if 0
+    /*
+     * 读数据不使用ECC,写数据使用ECC是为与S5PV210的引导代码保持一致，否则无法启动
+     */
+#define NF8_ReadPage_Adv(a,b,c) (((int(*)(u32, u32, u8*))(*((u32 *)0xD0037F90)))(a,b,c))
+    return NF8_ReadPage_Adv(page / 64, page % 64, buf);
+#else
+    chip->read_buf(mtd, buf, mtd->writesize);
+    if (oob_required)
+        chip->read_buf(mtd, chip->oob_poi, mtd->oobsize);
+    return 0;
+#endif
+
 }
 
 #endif
