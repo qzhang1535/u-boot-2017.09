@@ -585,8 +585,8 @@ static void s3c2410_udc_hw_init(struct s3c2410_udc *dev)
 	writeb(EP0_INT | EP1_INT | EP3_INT, XF2440_UDC_EP_INT_EN_REG);//writeb((EP0_INT | EP1_INT | EP3_INT), &usbdevregs->EP_INT_EN_REG); 
 	writeb(RESET_INT, XF2440_UDC_USB_INT_EN_REG);//writeb(RESET_INT, &usbdevregs->USB_INT_EN_REG); 
 
-	printf("XF2440_UDC_OUT_CSR2_REG:0x%02x \n", readb(XF2440_UDC_OUT_CSR2_REG));
-	printf("XF2440_UDC_EP_INT_EN_REG:0x%02x \n", readb(XF2440_UDC_EP_INT_EN_REG));
+	//printf("XF2440_UDC_OUT_CSR2_REG:0x%02x \n", readb(XF2440_UDC_OUT_CSR2_REG));
+	//printf("XF2440_UDC_EP_INT_EN_REG:0x%02x \n", readb(XF2440_UDC_EP_INT_EN_REG));
 
 
 
@@ -1947,7 +1947,7 @@ int s3c2410_udc_probe(void)
 {
 	int i;
 	
-	printf("XF2440: %s ================ \n", __func__);
+    printf("Init USB controller...\n");
 
 	base_addr = (void *)XF2440_UDC_BASE;
 	
@@ -1976,7 +1976,6 @@ int usb_gadget_register_driver(struct usb_gadget_driver *driver)
 	int retval = 0;
 	struct s3c2410_udc *dev;
 
-	printf("XF2440: %s ================ \n", __func__);
 
 	dev = the_controller;
 	dev->driver = driver;
