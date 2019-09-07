@@ -34,31 +34,15 @@
 #define CONFIG_ENV_SIZE						(128*1024)
 
 #define CONFIG_EXTRA_ENV_SETTINGS           "serial#=TQ2440F000A\0"
-#define CONFIG_BOOTCOMMAND					"nand read 0x30007fc0 kernel; bootm 0x30007fc0"
+#define CONFIG_BOOTCOMMAND                  "ubi part boot;ubifsmount ubi0:boot;ubifsload 30008000 zImage;ubifsload 30800000 s3c2440-tq2440.dtb;bootz 30008000 - 30800000 nand"
 
-#ifdef CONFIG_SPL_BUILD
-#define CONFIG_SPL_FRAMEWORK				1
-#define CONFIG_SPL_LIBGENERIC_SUPPORT		1
-#define CONFIG_SPL_LIBCOMMON_SUPPORT		1
-#define CONFIG_SPL_SERIAL_SUPPORT			1
-#define CONFIG_SPL_TEXT_BASE				0x30000000
-#define CONFIG_SPL_STACK					0x2000
 
-/* #define CONFIG_SPL_NAND_SUPPORT				1*/
-#define CONFIG_SPL_NAND_RAW_ONLY			1
-
-/*first 8k is spl*/	
-#define CONFIG_SYS_NAND_U_BOOT_OFFS			(8*1024)				
-#define CONFIG_SYS_NAND_U_BOOT_SIZE			(0x200000 - 8*1024)
-#define CONFIG_SYS_NAND_U_BOOT_DST			0x5fe00000
-#endif
-
-#define CONFIG_AUTO_COMPLETE					1		/*tab auto complete*/
+#define CONFIG_AUTO_COMPLETE				1		/*tab auto complete*/
 #define CONFIG_CMDLINE_EDITING				1		/*cmd line editing*/
 
 
 
-#define CONFIG_CMD_LOADB						1
+#define CONFIG_CMD_LOADB					1
 #define CONFIG_CMD_MTDPARTS					1
 #define CONFIG_CMD_NAND						1
 #define CONFIG_CMD_PING						1
@@ -67,7 +51,7 @@
 /*mtd*/
 #define CONFIG_MTD_DEVICE						1
 #define MTDIDS_DEFAULT 							"nand0=nand0"
-#define MTDPARTS_DEFAULT 						"mtdparts=nand0:0x200000@0x0(uboot),0x600000@0x200000(kernel),0x4000000@0x800000(rootfs),-(reserved)"
+#define MTDPARTS_DEFAULT 						"mtdparts=nand0:0x200000@0x0(bootloader),0x1000000@0x200000(boot),0x4000000@0x1200000(rootfs),-(reserved)"
 #define MTD_ACTIVE_PART 						"nand0,2"
 
 
