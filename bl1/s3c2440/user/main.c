@@ -32,9 +32,9 @@ int main(void)
 	if(check_flashboot_mode() == 0)
 	{
 		serial_puts("Boot from Nandflash\r\n");
-		for(i = 0; i < 256; ++i)
+		for(i = 0; i < 512; ++i)
 		{
-			nand_read_page(sdram + (i * 1024), 4096 + (i *1024), 2048);
+			nand_read_page(sdram + (i * 2048), 4096 + (i *2048), 2048);
 		}
 	}
 	else
