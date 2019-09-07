@@ -33,6 +33,7 @@
 #define CONFIG_ENV_OFFSET					0x100000
 #define CONFIG_ENV_SIZE						(128*1024)
 
+#define CONFIG_EXTRA_ENV_SETTINGS           "serial#=TQ2440F000A\0"
 #define CONFIG_BOOTCOMMAND					"nand read 0x30007fc0 kernel; bootm 0x30007fc0"
 
 #ifdef CONFIG_SPL_BUILD
