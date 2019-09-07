@@ -3,31 +3,31 @@
 _start:
 	b	reset
 		
-		@ 0x04: Î´¶¨ÒåÖ¸ÁîÖĞÖ¹Ä£Ê½µÄÏòÁ¿µØÖ·
+		@ 0x04: æœªå®šä¹‰æŒ‡ä»¤ä¸­æ­¢æ¨¡å¼çš„å‘é‡åœ°å€
 HandleUndef:
 	b   HandleUndef 
  
-@ 0x08: ¹ÜÀíÄ£Ê½µÄÏòÁ¿µØÖ·£¬Í¨¹ıSWIÖ¸Áî½øÈë´ËÄ£Ê½
+@ 0x08: ç®¡ç†æ¨¡å¼çš„å‘é‡åœ°å€ï¼Œé€šè¿‡SWIæŒ‡ä»¤è¿›å…¥æ­¤æ¨¡å¼
 HandleSWI:
     b   HandleSWI
 
-@ 0x0c: Ö¸ÁîÔ¤È¡ÖÕÖ¹µ¼ÖÂµÄÒì³£µÄÏòÁ¿µØÖ·
+@ 0x0c: æŒ‡ä»¤é¢„å–ç»ˆæ­¢å¯¼è‡´çš„å¼‚å¸¸çš„å‘é‡åœ°å€
 HandlePrefetchAbort:
     b   HandlePrefetchAbort
 
-@ 0x10: Êı¾İ·ÃÎÊÖÕÖ¹µ¼ÖÂµÄÒì³£µÄÏòÁ¿µØÖ·
+@ 0x10: æ•°æ®è®¿é—®ç»ˆæ­¢å¯¼è‡´çš„å¼‚å¸¸çš„å‘é‡åœ°å€
 HandleDataAbort:
     b   HandleDataAbort
 
-@ 0x14: ±£Áô
+@ 0x14: ä¿ç•™
 HandleNotUsed:
     b   HandleNotUsed
 
-@ 0x18: ÖĞ¶ÏÄ£Ê½µÄÏòÁ¿µØÖ·
+@ 0x18: ä¸­æ–­æ¨¡å¼çš„å‘é‡åœ°å€
 HandleIRQ:
     b   HandleIRQ
 
-@ 0x1c: ¿ìÖĞ¶ÏÄ£Ê½µÄÏòÁ¿µØÖ·
+@ 0x1c: å¿«ä¸­æ–­æ¨¡å¼çš„å‘é‡åœ°å€
 HandleFIQ:
     b   HandleFIQ
 		
@@ -41,9 +41,9 @@ _bss_end:
 	.word __end
 	
 reset: 
-		ldr     r0, =0x53000000     @ WATCHDOG¼Ä´æÆ÷µØÖ·
+		ldr     r0, =0x53000000     @ WATCHDOGå¯„å­˜å™¨åœ°å€
 		mov     r1, #0x0                     
-		str     r1, [r0]              @ Ğ´Èë0£¬½ûÖ¹WATCHDOG£¬·ñÔòCPU»á²»¶ÏÖØÆô
+		str     r1, [r0]              @ å†™å…¥0ï¼Œç¦æ­¢WATCHDOGï¼Œå¦åˆ™CPUä¼šä¸æ–­é‡å¯
 		
 		bl	    lowlevel_init
 		
