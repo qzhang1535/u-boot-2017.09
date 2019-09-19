@@ -29,6 +29,9 @@
 #define CLK_DIV6		*((volatile u32 *)0xE0100318)
 #define CLK_DIV7		*((volatile u32 *)0xE010031C)
 
+
+#define DISPLAY_CONTROL *((volatile u32 *)0xE0107008)
+
 /* 时钟初始化 */
 void clock_init()
 {
@@ -74,6 +77,7 @@ void clock_init()
 				(1 << 28);	/* PCLK_PSYS_RATIO = 1, freq(PCLK_PSYS) = HCLK_PSYS / (PCLK_PSYS_RATIO + 1) = 66MHz */
 	
 	/* 7.设置其他模块的时钟分频值 */
+    DISPLAY_CONTROL = 0x2;
 }
 
 /* 计算x的y次方 */
