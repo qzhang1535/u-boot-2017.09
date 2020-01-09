@@ -1,3 +1,7 @@
+ifeq ("$(origin O)", "command line")
+	BL1_OUTPUT := $(O)
+endif
+
 OBJ=bl1
 
 CROSS_COMPILE?=arm-linux-
@@ -11,18 +15,23 @@ STRIP           = $(CROSS_COMPILE)strip
 OBJCOPY         = $(CROSS_COMPILE)objcopy
 OBJDUMP         = $(CROSS_COMPILE)objdump
 
-$(OBJ).bin: start.o clock.o uart.o ddr.o copy.o  main.o
-	$(LD) -Ttext 0xD0020010 -o $(OBJ).elf $^ 
-	$(OBJCOPY) -O binary $(OBJ).elf $@
-	$(OBJDUMP) -D $(OBJ).elf > $(OBJ).dis
-	make -C mkhead
-	./mkhead/addheader $(OBJ).bin u-boot-spl.bin
+OBJS=start.o clock.o uart.o ddr.o copy.o main.o
+OBJS_WITH_DIR=$(addprefix $(BL1_OUTPUT)/,$(OBJS))
+TOOL_ADDHEADER=$(addprefix $(BL1_OUTPUT)/,addheader)
+
+$(BL1_OUTPUT)/$(OBJ).bin: $(OBJS_WITH_DIR) $(TOOL_ADDHEADER)
+	$(LD) -Ttext 0xD0020010 -o $(BL1_OUTPUT)/$(OBJ).elf $(OBJS_WITH_DIR) 
+	$(OBJCOPY) -O binary $(BL1_OUTPUT)/$(OBJ).elf $@
+	$(OBJDUMP) -D $(BL1_OUTPUT)/$(OBJ).elf > $(BL1_OUTPUT)/$(OBJ).dis
+	$(TOOL_ADDHEADER) $(BL1_OUTPUT)/$(OBJ).bin $(BL1_OUTPUT)/u-boot-spl.bin
 	
-%.o : %.c
+$(BL1_OUTPUT)/%.o : %.c
 	$(CC) -c $< -o $@ -fno-builtin
-%.o : %.S
+$(BL1_OUTPUT)/%.o : %.S
 	$(CC) -c $< -o $@
+
+$(BL1_OUTPUT)/addheader:
+	gcc -o $@ mkhead/addheader.c
 	
 clean:
-	make -C mkhead clean
-	rm *.o *.elf *.bin *.dis
+	rm *.o *.elf *.bin *.dis addheader
