@@ -1,8 +1,9 @@
 ifeq ("$(origin O)", "command line")
-	BL1_OUTPUT := $(O)
+	TARGET_OUTPUT := $(O)
 endif
 
-OBJ=bl1
+
+TARGET_NAME=bl1
 
 CROSS_COMPILE?=arm-linux-
 
@@ -15,26 +16,38 @@ STRIP           = $(CROSS_COMPILE)strip
 OBJCOPY         = $(CROSS_COMPILE)objcopy
 OBJDUMP         = $(CROSS_COMPILE)objdump
 
+ifeq ($(strip $(TARGET_OUTPUT)), )
+		OBJ_OUT := $(shell pwd)
+else
+		OBJ_OUT := $(TARGET_OUTPUT)
+endif
+
+HOST_ADDHEADER=$(OBJ_OUT)/addheader
 OBJS=start.o clock.o uart.o ddr.o copy.o main.o
-OBJS_WITH_DIR=$(addprefix $(BL1_OUTPUT)/,$(OBJS))
-TOOL_ADDHEADER=$(addprefix $(BL1_OUTPUT)/,addheader)
 
-$(BL1_OUTPUT)/$(OBJ).bin: $(BL1_OUTPUT) $(OBJS_WITH_DIR) $(TOOL_ADDHEADER)
-	$(LD) -Ttext 0xD0020010 -o $(BL1_OUTPUT)/$(OBJ).elf $(OBJS_WITH_DIR) 
-	$(OBJCOPY) -O binary $(BL1_OUTPUT)/$(OBJ).elf $@
-	$(OBJDUMP) -D $(BL1_OUTPUT)/$(OBJ).elf > $(BL1_OUTPUT)/$(OBJ).dis
-	$(TOOL_ADDHEADER) $(BL1_OUTPUT)/$(OBJ).bin $(BL1_OUTPUT)/u-boot-spl.bin
+OBJS_DEP=$(addprefix $(OBJ_OUT)/,$(OBJS))
+$(OBJ_OUT)/$(TARGET_NAME).bin: $(OBJ_OUT) $(HOST_ADDHEADER) $(OBJS_DEP)
+	$(LD) -Ttext 0xD0020010 -o $(OBJ_OUT)/$(TARGET_NAME).elf $(OBJS_DEP) 
+	$(OBJCOPY) -O binary $(OBJ_OUT)/$(TARGET_NAME).elf $@
+	$(OBJDUMP) -D $(OBJ_OUT)/$(TARGET_NAME).elf > $(OBJ_OUT)/$(TARGET_NAME).dis
+	$(HOST_ADDHEADER) $(OBJ_OUT)/$(TARGET_NAME).bin $(OBJ_OUT)/u-boot-spl.bin
 	
-$(BL1_OUTPUT):
-	mkdir -p $@
-
-$(BL1_OUTPUT)/%.o : %.c
-	$(CC) -c $< -o $@ -fno-builtin
-$(BL1_OUTPUT)/%.o : %.S
-	$(CC) -c $< -o $@
-
-$(BL1_OUTPUT)/addheader:
+$(HOST_ADDHEADER):
 	gcc -o $@ mkhead/addheader.c
 	
+$(OBJ_OUT):
+	mkdir -p $@
+
+$(OBJ_OUT)/%.o : %.c
+	$(CC) -c $< -o $@ -fno-builtin
+
+$(OBJ_OUT)/%.o : %.S
+	$(CC) -c $< -o $@
+
+
 clean:
-	rm *.o *.elf *.bin *.dis addheader
+	rm -rf $(OBJ_OUT)/*.o
+	rm -rf $(OBJ_OUT)/*.elf
+	rm -rf $(OBJ_OUT)/*.bin
+	rm -rf $(OBJ_OUT)/*.dis
+	rm -rf $(OBJ_OUT)/addheader
