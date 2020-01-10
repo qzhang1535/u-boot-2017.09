@@ -19,12 +19,15 @@ OBJS=start.o clock.o uart.o ddr.o copy.o main.o
 OBJS_WITH_DIR=$(addprefix $(BL1_OUTPUT)/,$(OBJS))
 TOOL_ADDHEADER=$(addprefix $(BL1_OUTPUT)/,addheader)
 
-$(BL1_OUTPUT)/$(OBJ).bin: $(OBJS_WITH_DIR) $(TOOL_ADDHEADER)
+$(BL1_OUTPUT)/$(OBJ).bin: $(BL1_OUTPUT) $(OBJS_WITH_DIR) $(TOOL_ADDHEADER)
 	$(LD) -Ttext 0xD0020010 -o $(BL1_OUTPUT)/$(OBJ).elf $(OBJS_WITH_DIR) 
 	$(OBJCOPY) -O binary $(BL1_OUTPUT)/$(OBJ).elf $@
 	$(OBJDUMP) -D $(BL1_OUTPUT)/$(OBJ).elf > $(BL1_OUTPUT)/$(OBJ).dis
 	$(TOOL_ADDHEADER) $(BL1_OUTPUT)/$(OBJ).bin $(BL1_OUTPUT)/u-boot-spl.bin
 	
+$(BL1_OUTPUT):
+	mkdir -p $@
+
 $(BL1_OUTPUT)/%.o : %.c
 	$(CC) -c $< -o $@ -fno-builtin
 $(BL1_OUTPUT)/%.o : %.S
