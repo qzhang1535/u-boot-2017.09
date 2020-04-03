@@ -1,25 +1,9 @@
-# 目录存在的问题
-# 1、头文件依赖没有
-# 2、链接脚本里的文件目录要自己指定
+ifeq ("$(origin O)", "command line")
+		    TARGET_OUTPUT := $(O)
+endif
 
+TARGET_NAME=spl
 
-#设置输出文件目录
-OBJDIR = output/obj
-BINDIR = spl
-
-#设置输入文件目录
-SRC_C = $(shell find -name '*.c')
-SRC_S = $(shell find -name '*.S')
-SRC_C_FILE = $(notdir $(SRC_C))
-SRC_S_FILE = $(notdir $(SRC_S))
-
-INC = $(addprefix -I, $(dir $(shell find -name '*.h')))
-
-OBJ = $(addprefix $(OBJDIR)/, $(SRC_C_FILE:.c=.o))
-OBJ +=$(addprefix $(OBJDIR)/, $(SRC_S_FILE:.S=.o))
-
-
-#设置编译环境 
 CROSS_COMPILE ?= arm-linux-
 CC      = $(CROSS_COMPILE)gcc
 LD      = $(CROSS_COMPILE)ld
@@ -27,28 +11,34 @@ AR      = $(CROSS_COMPILE)ar
 OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 CFLAGS = -Wall -nostdlib -g -Os -fno-builtin-printf 
-vpath %.c $(dir $(SRC_C))
-vpath %.S $(dir $(SRC_S))
 
-all:$(OBJDIR) $(OBJ)
-	${LD} -Ts3c2440.lds -o $(BINDIR).elf $(OBJ)	
-	${OBJCOPY} -O binary -S $(BINDIR).elf $(BINDIR).bin
-	${OBJCOPY} -O binary -S --pad-to 4096 $(BINDIR).elf $(BINDIR).bin	
-	${OBJDUMP} -D $(BINDIR).elf > $(BINDIR).dis
+ifeq ($(strip $(TARGET_OUTPUT)), )
+	OBJ_OUT := $(shell pwd)
+else
+	OBJ_OUT := $(TARGET_OUTPUT)
+endif
 
-#创建文件夹
-$(OBJDIR):
-	@echo $(OBJ)
-	mkdir -p $(OBJDIR)	
-$(OBJDIR)/%.o : %.c
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
-$(OBJDIR)/%.o : %.S
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+OBJS=start.o lowlevel_init.o nand_cp.o uart.o main.o
+OBJS_DEP=$(addprefix $(OBJ_OUT)/,$(OBJS))
 
-.PHONY : clean
+$(OBJ_OUT)/$(TARGET_NAME).bin: $(OBJ_OUT)  $(OBJS_DEP)
+	$(LD) -Ts3c2440.lds -o $(OBJ_OUT)/$(TARGET_NAME).elf $(OBJS_DEP) 
+	${OBJCOPY} -O binary -S --pad-to 4096 $(OBJ_OUT)/$(TARGET_NAME).elf $@
+	$(OBJDUMP) -D $(OBJ_OUT)/$(TARGET_NAME).elf > $(OBJ_OUT)/$(TARGET_NAME).dis 
+
+
+$(OBJ_OUT):
+	    mkdir -p $@
+
+$(OBJ_OUT)/%.o : %.c
+	    $(CC) -c $< -o $@ -fno-builtin
+
+$(OBJ_OUT)/%.o : %.S
+	    $(CC) -c $< -o $@
+
 clean:
-	rm -f $(OBJDIR)/*.o
-	rm -f *.elf *.bin *.dis
+	rm -rf $(OBJ_OUT)/*.o
+	rm -rf $(OBJ_OUT)/*.elf
+	rm -rf $(OBJ_OUT)/*.bin
+	rm -rf $(OBJ_OUT)/*.dis
 
-
-	
