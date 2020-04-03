@@ -37,7 +37,7 @@ void putc(unsigned char c)
 }
 
 
-void serial_puts(unsigned char* str)
+void serial_puts(char* str)
 {
 	while(*str)
 	{

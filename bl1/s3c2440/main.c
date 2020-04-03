@@ -1,4 +1,7 @@
 
+extern void nand_read_page(unsigned char * dest_addr, unsigned long src_addr, unsigned int size);
+extern void serial_puts(char* str);
+
 static void (*theApp)(void);
 
 
@@ -34,7 +37,7 @@ int main(void)
 		serial_puts("Boot from Nandflash\r\n");
 		for(i = 0; i < 512; ++i)
 		{
-			nand_read_page(sdram + (i * 2048), 4096 + (i *2048), 2048);
+			nand_read_page((unsigned char *)sdram + (i * 2048), 4096 + (i *2048), 2048);
 		}
 	}
 	else

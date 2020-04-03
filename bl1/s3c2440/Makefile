@@ -31,10 +31,10 @@ $(OBJ_OUT):
 	    mkdir -p $@
 
 $(OBJ_OUT)/%.o : %.c
-	    $(CC) -c $< -o $@ -fno-builtin
+	    $(CC) $(CFLAGS) -c $< -o $@ 
 
 $(OBJ_OUT)/%.o : %.S
-	    $(CC) -c $< -o $@
+	    $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_OUT)/*.o
