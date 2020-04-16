@@ -62,17 +62,24 @@ system_clock_init:
 	mrc p15, 0, r0, c1, c0, 0
 	orr r0, r0, #0xc0000000
 	mcr p15, 0, r0, c1, c0,0
-			
-	/*MPLL=(2*m*Fin)/(P*(1<<S)), m=(MDIV+8), p=PDIV+2 s=SDIV*/
-    ldr r0, =MPLLCON 
-    ldr r1, =((0x5C<<12)|(0x01<<4)|(0x01))
-    str r1, [r0]
 	
-	/*UPLL=(m*Fin)/(P*(1<<S)), m=(MDIV+8), p=(PDIV+2), s=SDIV*/
+    /*UPLL=(m*Fin)/(P*(1<<S)), m=(MDIV+8), p=(PDIV+2), s=SDIV*/
     ldr r0, =UPLLCON
     ldr r1, =((0x10<<12)|(0x01<<4)|(0x01))
     str r1, [r0]
+
+    ldr r0, =0
+    ldr r1, =100
+loop:
+    add r0, r0, #1
+    cmp r0, r1
+    bne loop
 	
+    /*MPLL=(2*m*Fin)/(P*(1<<S)), m=(MDIV+8), p=PDIV+2 s=SDIV*/
+    ldr r0, =MPLLCON 
+    ldr r1, =((0x5C<<12)|(0x01<<4)|(0x01))
+    str r1, [r0]
+		
 	mov	pc, lr
 	
 uart_asm_init:	
