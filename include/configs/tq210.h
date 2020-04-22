@@ -70,6 +70,7 @@
 #define CONFIG_SYS_ICACHE_OFF				1
 #define CONFIG_SYS_DCACHE_OFF				1
 
+#define CONFIG_SKIP_LOWLEVEL_INIT           1
 
 #endif
 

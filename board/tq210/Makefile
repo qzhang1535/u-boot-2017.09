@@ -6,4 +6,3 @@
 #
 
 obj-y	+= tq210.o
-obj-y	+= lowlevel_init.o
