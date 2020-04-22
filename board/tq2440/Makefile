@@ -6,4 +6,3 @@
 #
 
 obj-y	:= tq2440.o
-obj-y	+= lowlevel_init.o
