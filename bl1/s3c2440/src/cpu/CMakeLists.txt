@@ -1,0 +1,12 @@
+set(CMAKE_EXE_LINKER_FLAGS "-T${CMAKE_CURRENT_SOURCE_DIR}/s3c2440.lds")
+
+set(TARGET_NAME "spl.bin")
+
+ADD_EXECUTABLE(${TARGET_NAME} 
+    start.S
+    lowlevel_init.S
+	entry.c
+)
+
+TARGET_LINK_LIBRARIES(${TARGET_NAME} user)
+TARGET_LINK_LIBRARIES(${TARGET_NAME} drivers)
