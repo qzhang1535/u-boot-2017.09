@@ -3,8 +3,6 @@ SECTIONS {
 	__program_start = .;
   	.text : {
 			*start.o
-			*lowlevel_init.o
-			*nand_cp.o
 			* (.text)
 	}
 	.rodata ALIGN(4) : {*(.rodata)} 
